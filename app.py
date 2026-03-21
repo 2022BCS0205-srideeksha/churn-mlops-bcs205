@@ -35,6 +35,23 @@ def predict():
         "prediction": int(prediction),
         "risk": risk
     })
+# Rule-based API (DevOps requirement)
+@app.route("/predict-risk", methods=["POST"])
+def predict_risk():
+    data = request.json
+
+    if data["tickets_30d"] > 5:
+        risk = "High Risk"
+    elif data["tickets_30d"] >= 3:
+        risk = "Medium Risk"
+    else:
+        risk = "Low Risk"
+
+    return jsonify({
+        "student": "BCS205",
+        "risk": risk,
+        "type": "rule-based"
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
