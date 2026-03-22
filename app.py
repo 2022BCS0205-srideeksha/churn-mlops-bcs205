@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 import joblib
+import logging
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 
@@ -39,6 +41,7 @@ def predict():
 @app.route("/predict-risk", methods=["POST"])
 def predict_risk():
     data = request.json
+    logging.info(f"BCS205 Request: {data}")
 
     if data["tickets_30d"] > 5:
         risk = "High Risk"
@@ -54,4 +57,4 @@ def predict_risk():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
